@@ -10,22 +10,34 @@ import UIKit
 
 class EmojiTableViewController: UITableViewController {
     
-    var emojis: [Emoji] = [
+    var smileysPeople: [Emoji] = [
         Emoji("😀", "Grinning Face", "A typical smiley face.", "happiness"),
         Emoji("😕", "Confused Face", "A confused, puzzled face.", "unsure what to think; displeasure"),
         Emoji("😍", "Heart Eyes", "A smiley face with hearts for eyes.", "love of something; attractive"),
-        Emoji("👮", "Police Officer", "A police officer wearing a blue cap with a gold badge.", "person of authority"),
+        Emoji("👮", "Police Officer", "A police officer wearing a blue cap with a gold badge.", "person of authority")
+    ]
+    var animalsNature: [Emoji] = [
         Emoji("🐢", "Turtle", "A cute turtle.", "Something slow"),
         Emoji("🐘", "Elephant", "A cute turtle.", "good memory"),
-        Emoji("🍝", "Spaghetti", "A plate of spaghetti.", "spaghetti"),
-        Emoji("🎲", "Die", "A single die.", "taking a risk, change; game"),
+    ]
+    var foodDrink: [Emoji] = [
+        Emoji("🍝", "Spaghetti", "A plate of spaghetti.", "spaghetti")
+    ]
+    var activity: [Emoji] = [
         Emoji("⛺️", "Tent", "A small tent.", "camping"),
-        Emoji("📚", "Stack of Books", "Three colored books stacked on each other.", "homework, studying"),
+        Emoji("🎲", "Die", "A single die.", "taking a risk, change; game"),
+        Emoji("📚", "Stack of Books", "Three colored books stacked on each other.", "homework, studying")
+    ]
+    var symbols: [Emoji] = [
         Emoji("💔", "Broken Heart", "A red, broken heart.", "extreme"),
-        Emoji("💤", "Snore", "Three blue \'z\'s", "tired, sleepiness"),
+        Emoji("💤", "Snore", "Three blue \'z\'s", "tired, sleepiness")
+    ]
+    var flags: [Emoji] = [
         Emoji("🏁", "Checkered Flag", "A black-and-white checkered flag.", "completion")
     ]
-
+    
+    var emojis: [[Emoji]] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -34,6 +46,13 @@ class EmojiTableViewController: UITableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
          self.navigationItem.leftBarButtonItem = self.editButtonItem
+        self.emojis.append(self.smileysPeople)
+        self.emojis.append(self.animalsNature)
+        self.emojis.append(self.foodDrink)
+        self.emojis.append(self.activity)
+        self.emojis.append(self.symbols)
+        self.emojis.append(self.flags)
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -52,22 +71,50 @@ class EmojiTableViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return 6
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
-            return emojis.count
+            return emojis[0].count
+        } else if section == 1 {
+            return emojis[1].count
+        } else if section == 2 {
+            return emojis[2].count
+        } else if section == 3 {
+            return emojis[3].count
+        } else if section == 4 {
+            return emojis[4].count
+        } else if section == 5 {
+            return emojis[5].count
         } else {
             return 0
         }
     }
 
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection: Int) -> String? {
+        switch titleForHeaderInSection {
+        case 0:
+            return "Smileys and People"
+        case 1:
+            return "Animals and Nature"
+        case 2:
+            return "Food and Drink"
+        case 3:
+            return "Activity"
+        case 4:
+            return "Symbols"
+        case 5:
+            return "Flags"
+        default:
+            return nil
+        }
+    }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "EmojiCell", for: indexPath)
-
-        let emoji = emojis[indexPath.row]
+        
+        let emoji = emojis[indexPath.section][indexPath.row]
         cell.textLabel?.text = "\(emoji.symbol) - \(emoji.name)"
         cell.detailTextLabel?.text = emoji.description
         cell.showsReorderControl = true
@@ -76,7 +123,7 @@ class EmojiTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("\(emojis[indexPath.row].symbol) \(indexPath)")
+        print("\(emojis[indexPath.section][indexPath.row].symbol) \(indexPath)")
     }
 
     /*
